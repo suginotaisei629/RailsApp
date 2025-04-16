@@ -1,0 +1,32 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  host: db 
+  username: user
+  password: password
+  database: myapp_development
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  timeout: 5000
+
+development:
+  <<: *default
+  database: myapp_development
+
+production:
+  primary: &primary_production
+    <<: *default
+    ddatabase: myapp_production
+    username: rails_app
+    password: <%= ENV["RAILS_APP_DATABASE_PASSWORD"] %>
+  cache:
+    <<: *primary_production
+    database: rails_app_production_cache
+    migrations_paths: db/cache_migrate
+  queue:
+    <<: *primary_production
+    database: rails_app_production_queue
+    migrations_paths: db/queue_migrate
+  cable:
+    <<: *primary_production
+    database: rails_app_production_cable
+    migrations_paths: db/cable_migrate
