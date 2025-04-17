@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 
 group :development, :production do
-  gem 'dotenv-rails'
+  gem "dotenv-rails"
 end
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
