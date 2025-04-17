@@ -1,10 +1,9 @@
 default: &default
   adapter: postgresql
   encoding: unicode
-  host: db 
+  host: db
   username: user
   password: password
-  database: myapp_development
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   timeout: 5000
 
@@ -12,10 +11,15 @@ development:
   <<: *default
   database: myapp_development
 
+test:
+  primary:
+    <<: *default
+    database: myapp_test
+
 production:
   primary: &primary_production
     <<: *default
-    ddatabase: myapp_production
+    database: myapp_production
     username: rails_app
     password: <%= ENV["RAILS_APP_DATABASE_PASSWORD"] %>
   cache:
