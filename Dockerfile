@@ -10,7 +10,7 @@ RUN apt-get update -qq && \
     apt-get install --no-install-recommends -y curl libjemalloc2 libvips postgresql-client && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
-ENV RAILS_ENV="production" \
+ENV RAILS_ENV=development \
     BUNDLE_DEPLOYMENT="1" \
     BUNDLE_PATH="/usr/local/bundle" \
     BUNDLE_WITHOUT="development"
@@ -48,5 +48,7 @@ USER 1000:1000
 
 ENTRYPOINT ["./bin/docker-entrypoint"]
 
-EXPOSE 80
-CMD ["./bin/thrust", "./bin/rails", "server"]
+EXPOSE 3000
+
+CMD ["bash", "-c", "until pg_isready -h db -U user; do echo 'Waiting for db...'; sleep 2; done && rm -f tmp/pids/server.pid && ./bin/rails s -b '0.0.0.0'"]
+
