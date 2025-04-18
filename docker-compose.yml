@@ -1,0 +1,26 @@
+version: '3'
+services:
+  db:
+    image: postgres:13
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_USER: user
+      POSTGRES_DB: myapp_development
+
+  web:
+    build: .
+    command: bash -c "until pg_isready -h db -U user; do echo 'Waiting for db...'; sleep 2; done && rm -f tmp/pids/server.pid && bundle exec rails s -b '0.0.0.0'"
+
+    volumes:
+      - ".:/app"
+    ports:
+      - "3001:3000" 
+    depends_on:
+      - db
+    environment:
+      - RAILS_ENV=development 
+
+volumes:
+  postgres_data:
