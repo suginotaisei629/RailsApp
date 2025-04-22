@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
 
   resources :products do
-    resources :subscribers, only: [ :create ]
+    resources :subscribers, only: [:create]
   end
 
   resource :unsubscribe, only: [:show]

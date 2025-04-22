@@ -1,11 +1,14 @@
 class ProductMailer < ApplicationMailer
-  # Subject can be set in your I18n file at config/locales/en.yml
-  # with the following lookup:
-  #
-  #   en.product_mailer.in_stock.subject
-  #
   def in_stock
     @product = params[:product]
-    mail to: params[:subscriber].email
+    subscriber = params[:subscriber]
+
+    # `subscriber` が存在するか確認
+    if subscriber.present?
+      mail to: subscriber.email, subject: 'Product in Stock'
+    else
+      # `subscriber` がない場合はデフォルトのメールアドレスを使うか、エラーハンドリング
+      mail to: 'default@example.com', subject: 'Product in Stock'
+    end
   end
 end
