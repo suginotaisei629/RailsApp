@@ -1,12 +1,14 @@
-class ProductMailerTest < ActionMailer::TestCase
-  test "in_stock" do
-    subscriber = Subscriber.create!(email: "subscriber@example.com")
-    product = Product.create!(name: "Test Product") # ここで製品を作成
+class ProductMailer < ApplicationMailer
+  def in_stock
+    @product = params[:product]
+    subscriber = params[:subscriber]
 
-    # メールを送信する際にproductパラメータを渡す
-    mail = ProductMailer.with(product: product, subscriber: subscriber).in_stock
-
-    assert_equal ["subscriber@example.com"], mail.to
-    assert_equal "Test Product is back in stock.", mail.body.encoded
+    # `subscriber` が存在するか確認
+    if subscriber.present?
+      mail to: subscriber.email, subject: 'Product in Stock'
+    else
+      # `subscriber` がない場合はデフォルトのメールアドレスを使うか、エラーハンドリング
+      mail to: 'default@example.com', subject: 'Product in Stock'
+    end
   end
 end
