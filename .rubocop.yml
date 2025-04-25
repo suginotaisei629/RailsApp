@@ -2,7 +2,14 @@
 inherit_gem: { rubocop-rails-omakase: rubocop.yml }
 
 # Overwrite or add rules to create your own house style
-#
-# # Use `[a, [b, c]]` not `[ a, [ b, c ] ]`
+Layout/TrailingWhitespace:
+  Enabled: false
+
+# 配列リテラルの括弧内のスペースを強制する
+Layout/SpaceInsideArrayLiteralBrackets:
+  Enabled: true
+  EnforcedStyle: no_space  # 括弧内にスペースを入れない設定
+
+# 例: `[a, [b, c]]` ではなく `[a, [b, c]]`
 # Layout/SpaceInsideArrayLiteralBrackets:
 #   Enabled: false
