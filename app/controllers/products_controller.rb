@@ -18,6 +18,7 @@ class ProductsController < ApplicationController
     if @product.save
       redirect_to @product
     else
+      Rails.logger.debug "Product errors: #{@product.errors.full_messages}"
       render :new, status: :unprocessable_entity
     end
   end
@@ -44,6 +45,6 @@ class ProductsController < ApplicationController
     end
 
     def product_params
-      params.require(:product).permit(:name)
+      params.require(:product).permit(:name, :description) 
     end
 end
