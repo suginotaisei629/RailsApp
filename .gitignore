@@ -35,6 +35,9 @@
 
 backup/
 
+
+/vendor/
+
 vendor/
 
 /public/packs
